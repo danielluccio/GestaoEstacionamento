@@ -29,6 +29,7 @@ class ParkingRecord(models.Model):
     class Meta:
         verbose_name = 'Vaga'
         verbose_name_plural = 'Vagas'
+        db_table = "Registros de Estacionamento"
 
     def __str__(self):
         return f"{self.vehicle} - {self.parking_spot} - {self.entry_time}"

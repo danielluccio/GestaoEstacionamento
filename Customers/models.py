@@ -40,7 +40,7 @@ class Customer(models.Model):
     class Meta:
         verbose_name = "Cliente"
         verbose_name_plural = "Clientes"
-        db_table = "customer"
+        db_table = "Clientes"
 
     def __str__(self):
         return self.name
