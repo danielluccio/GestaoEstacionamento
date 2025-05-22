@@ -1,38 +1,35 @@
 from django.db import models
 from Customers.models import Customer
+from Vehicle.models import Vehicle
 
-# Classe de Tipo do Veiculo !
+# Modelo de Vaga de Estacionamento
 
-class VehicleType(models.Model):
-    name = models.CharField(max_length=100, unique=True, verbose_name="Nome")
-    description = models.TextField(default="Veiculo sem Descrição", verbose_name="Descrição")
+class ParkingSpot(models.Model):
+    spot_number = models.CharField(max_length=10, unique=True, verbose_name='Número do Vaga')
+    is_occupied = models.BooleanField(default=False, verbose_name="Está Ocupado")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
 
     class Meta:
-        verbose_name = "Tipo de Veiculo"
-        verbose_name_plural = "Tipos de Veiculos"
-        db_table = "Tipo de Veiculo"
+        verbose_name = "Vaga de Estacionamento"
+        verbose_name_plural = "Vagas de Estacionamento"
+        db_table = "Vaga de Estacionamento"
 
     def __str__(self):
-        return self.name
+        self.spot_number
+
+# Registro de Estacionamentos
+
+class ParkingRecord(models.Model):
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.PROTECT, related_name="parking_records",verbose_name='Veículo', )
+    parking_spot = models.ForeignKey(ParkingSpot, on_delete=models.PROTECT, related_name="parking_records", verbose_name="Vaga")
+    entry_time = models.DateTimeField(auto_now_add=True, verbose_name="Hórario de Entrada")
+    exit_time = models.DateTimeField(blank=True, null=True, verbose_name="Horário de Saída")
+
+    class Meta:
+        verbose_name = 'Vaga'
+        verbose_name_plural = 'Vagas'
+
+    def __str__(self):
+        return f"{self.vehicle} - {self.parking_spot} - {self.entry_time}"
     
-
-# Classe para Veiculos
-
-class Vehicle(models.Model):
-    vehicle_type = models.ForeignKey(VehicleType, on_delete=models.PROTECT, blank=True, null=True, related_name="vehicles", verbose_name="Tipo do Veiculo")
-    license_plate = models.CharField(max_length=20, unique=True, verbose_name="Placa do Veículo")
-    brand = models.CharField(max_length=50, verbose_name="Marca", blank=True, null=True)
-    model = models.CharField(max_length=100, verbose_name="Modelo", blank=True, null=True)
-    color = models.CharField(max_length=30, verbose_name="Cor", blank=True, null=True)
-    owner = models.ForeignKey(Customer, on_delete=models.PROTECT, blank=True, null=True, related_name="vehicles", verbose_name="Propietário")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
-
-    class Meta:
-        verbose_name = "Veículo"
-        verbose_name_plural = "Veículos"
-
-    def __str__(self):
-        return self.license_plate
