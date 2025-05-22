@@ -9,8 +9,8 @@ class Customer(models.Model):
         blank=True,
         null=True,
         related_name="customers",
-        verbose_name="Cliente",
-        verbose_name_plural = "Clientes"
+        verbose_name="Customer"
+
     )
     name = models.CharField(
         max_length=100, 
@@ -36,4 +36,12 @@ class Customer(models.Model):
         auto_now=True,
         verbose_name="Atualizado em"
     )
+
+    class Meta:
+        verbose_name = "Cliente"
+        verbose_name_plural = "Clientes"
+        db_table = "customer"
+
+    def __str__(self):
+        return self.name
 

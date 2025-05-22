@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# Classe de Tipo do Veiculo !
+
+class VehicleType(models.Model):
+    name = models.CharField(max_length=100, )
