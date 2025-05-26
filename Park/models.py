@@ -16,7 +16,7 @@ class ParkingSpot(models.Model):
         db_table = "Vaga de Estacionamento"
 
     def __str__(self):
-        self.spot_number
+        return self.spot_number
 
 # Registro de Estacionamentos
 
