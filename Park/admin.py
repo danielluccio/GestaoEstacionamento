@@ -11,4 +11,8 @@ class ParkingRecordAdmin(admin.ModelAdmin):
     list_display = ('vehicle', 'parking_spot', 'entry_time')
     search_fields  = ('vehicle', 'parking_spot', 'entry_time')
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'parking_spot' and not request.resolver_match.url_name.endswith('change'):
+            kwargs['queryset'] = ParkingSpot.objects.filter(is_occupied=False)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
