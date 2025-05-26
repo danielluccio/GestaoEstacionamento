@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin", # Estilização de visual do admin
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
